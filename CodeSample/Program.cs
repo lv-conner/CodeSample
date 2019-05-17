@@ -1,6 +1,7 @@
 ﻿using System;
 using CodeSample.ExpressionTree;
 using CodeSample.ExpressionTree.Test;
+using CodeSample.PipelineProgram;
 
 namespace CodeSample
 {
@@ -8,7 +9,8 @@ namespace CodeSample
     {
         static void Main(string[] args)
         {
-            Tree.Convert<Person, PersonDto>(new Person());
+            //Tree.Convert<Person, PersonDto>(new Person());
+            Sample.Case();
             Console.ReadKey();
             Console.WriteLine("Hello World!");
         }
