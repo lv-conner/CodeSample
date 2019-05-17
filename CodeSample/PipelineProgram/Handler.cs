@@ -36,16 +36,34 @@ namespace CodeSample.PipelineProgram
             var app = list.Reverse().Aggregate(seed, (n, current) => current(n));
             app(new HandlerContext());
 
-            Handler next = null;
+            Handler next = seed;
             foreach (var item in list.Reverse())
             {
-                if(next == null)
-                {
-                    next = item(seed);
-                }
-                next = item(next);
+                next = item(next); //此时并没有调用方法。而是把next变成了 c => { something; return next(c) }的函数；因此循环调用后，最初调用的那个函数将在最后调用。
             }
             next(new HandlerContext());
+
+            IEnumerable<int> intList = new List<int>()
+             {
+                 1,2,3,4,5,6,7,8,9,10
+             };
+            var rst = intList.Aggregate("Hello", (n, current) => n += current);
+            //等价于
+            var preString = "Hello";
+            foreach (var item in intList)
+            {
+                preString += item;
+            }
+            Console.WriteLine(preString);
+        }
+
+        static TResult Aggregate<T,TResult>(IEnumerable<T> list,TResult seed,Func<TResult,T,TResult> func)
+        {
+            foreach (var item in list)
+            {
+                func(seed, item);
+            }
+            return seed;
         }
 
 
