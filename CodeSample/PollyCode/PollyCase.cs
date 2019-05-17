@@ -51,8 +51,10 @@ namespace CodeSample.PollyCode
 
             //熔断
             Policy.Handle<TimeoutException>(toe => true).CircuitBreaker(2, TimeSpan.FromMinutes(1)).Execute(() => throw new TimeoutException());
-            //后备
+            //降级
             Policy.Handle<TimeoutException>(toe => true).Fallback(() => Console.WriteLine("call fallback"));
+
+            Policy.HandleResult<string>(ss => ss.EndsWith("w")).Or<TimeoutException>(toe => true).CircuitBreaker<string>(2, TimeSpan.FromSeconds(20)).Execute(() => "swww");
         }
     }
 }
