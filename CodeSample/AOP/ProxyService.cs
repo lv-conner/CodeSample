@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace CodeSample.AOP
 {
@@ -9,8 +11,13 @@ namespace CodeSample.AOP
     {
         public void SayHello(string name)
         {
-            var context = new InterceptroContext();
-
+            AspectContext context = new AspectContext();
+            List<Func<AspectDelegate, AspectDelegate>> interceptors = new List<Func<AspectDelegate, AspectDelegate>>();
+            AspectDelegate seed = c => { c.ImplementMethod.Invoke(c.ImplementInstance, c.Paramenters.ToArray()); return Task.CompletedTask; };
+            Func<AspectDelegate, AspectDelegate> interceptor = next => c => (c.ServiceProvider.GetService(typeof(LogInterceptor)) as LogInterceptor).Invoke(context, next);
+            var app = interceptor(seed);
+            app(context);
+            //return context.result;
         }
     }
     public class CNSayHello : ISayHello
@@ -25,17 +32,23 @@ namespace CodeSample.AOP
         [Interceptor(typeof(LogInterceptor))]
         void SayHello(string name);
     }
-    public class InterceptroContext
+    public class AspectContext
     {
-
+        public IServiceProvider ServiceProvider { get; set; } 
+        public object ImplementInstance { get; set; }
+        public MethodInfo ImplementMethod { get; set; }
+        public object ProxyObject { get; set; }
+        public MethodInfo ProxyMethod { get; set; }
+        public IEnumerable<object> Paramenters { get; set; }
     }
+    public delegate Task AspectDelegate(AspectContext context);
     public interface IInterceptor
     {
-        Task Invoke(InterceptroContext context, Func<InterceptroContext,Task> next);
+        Task Invoke(AspectContext context, AspectDelegate next);
     }
     public class LogInterceptor : IInterceptor
     {
-        public async Task Invoke(InterceptroContext context, Func<InterceptroContext,Task> next)
+        public async Task Invoke(AspectContext context, AspectDelegate next)
         {
             Console.WriteLine("begin");
             await next(context);

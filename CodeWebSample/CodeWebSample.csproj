@@ -10,6 +10,15 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\GirRepo\AspectCore-Framework\core\src\AspectCore.Abstractions\AspectCore.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\..\GirRepo\AspectCore-Framework\core\src\AspectCore.Core\AspectCore.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\GirRepo\AspectCore-Framework\extras\src\AspectCore.Extensions.DependencyInjection\AspectCore.Extensions.DependencyInjection.csproj" />
+    <ProjectReference Include="..\..\..\..\GirRepo\AspectCore-Framework\reflection\src\AspectCore.Extensions.Reflection\AspectCore.Extensions.Reflection.csproj" />
   </ItemGroup>
 
 </Project>
