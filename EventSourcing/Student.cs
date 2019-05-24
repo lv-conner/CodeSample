@@ -4,8 +4,7 @@ using System.Text;
 
 namespace EventSourcing
 {
-    public interface IEvent
+    public class Student
     {
-        
     }
 }

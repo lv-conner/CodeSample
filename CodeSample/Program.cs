@@ -8,6 +8,7 @@ using CodeSample.ExpressionTree.Test;
 using CodeSample.PipelineProgram;
 using System.Linq;
 using CodeSample.LockSample;
+using System.Threading.Tasks;
 
 namespace CodeSample
 {
@@ -33,7 +34,7 @@ namespace CodeSample
             //    //Console.WriteLine(stopwatch.Elapsed);
             //    times.Add(stopwatch.Elapsed);
             //}
-
+            Parallel.Invoke(() => Console.WriteLine("Hello"));
             //Console.WriteLine(times.Average(p => p.Ticks));
             SpinLockTest.Case();
             SpinLockTest.Case1();
