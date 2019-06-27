@@ -22,5 +22,6 @@ namespace CodeWebSample.Controllers.Api
             _repository.Add("tim lv");
             return Content(_repository.GetType().FullName);
         }
+
     }
 }

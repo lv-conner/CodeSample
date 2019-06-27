@@ -18,6 +18,8 @@ namespace CodeSample
     {
         static void Main(string[] args)
         {
+            CpuBusy();
+            Console.ReadKey();
             //var ctinfo = typeof(Person).GetConstructor(new Type[] { });
             //var constructorInfo = typeof(Person).GetTypeInfo().GetConstructor(new Type[0]);
             //var reflector = constructorInfo.GetReflector();
@@ -57,6 +59,23 @@ namespace CodeSample
             //}); 
             Console.WriteLine("Hello World!");
             Console.ReadKey();
+        }
+
+        static void CpuBusy()
+        {
+            Parallel.Invoke(PAction, PAction, PAction, PAction);
+            void PAction()
+            {
+                while(true)
+                {
+                    var sum = 0;
+                    for (int i = 0; i < 5000000; i++)
+                    {
+                        sum += i;
+                    }
+                    //Console.WriteLine(sum);
+                }
+            }
         }
     }
     public class SimpleChangeTokenSource
